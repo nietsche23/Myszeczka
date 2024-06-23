@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myszeczka</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        #text {
+            font-size: 50px;
+            font-weight: bold;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 75%, 20% 100%, 0% 35%);
+        }
+    </style>
+</head>
+<body>
+    <div id="text">myszeczka</div>
+    <script>
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        function scatterHearts() {
+            const textElement = document.getElementById('text');
+            const rect = textElement.getBoundingClientRect();
+            const textX = rect.left + rect.width / 2;
+            const textY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 1000; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 200;
+                const x = textX + distance * Math.cos(angle);
+                const y = textY + distance * Math.sin(angle);
+                createHeart(x, y);
+            }
+
+            textElement.style.display = 'none';
+        }
+
+        setTimeout(scatterHearts, 3000);
+    </script>
+</body>
+</html>
